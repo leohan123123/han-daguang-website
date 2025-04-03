@@ -120,7 +120,7 @@ export interface CommunityPost {
 }
 
 // 用户状态类型
-export interface UserStatus {
+export interface Status {
   exercise: {
     steps: number
     duration: string
@@ -236,13 +236,16 @@ export interface CurrentStatus {
 
 export interface Community {
   id: number
-  title: string
+  author: {
+    name: string
+    avatar: string
+  }
   content: string
-  author: string
-  avatar: string
-  date: string
-  image?: string
+  createdAt: string
+  images?: string[]
   likes: number
   comments: number
   shares: number
-} 
+}
+
+export type StorageData = Profile | Status | Hardware[] | Patent[] | Community[] | CurrentStatus 
