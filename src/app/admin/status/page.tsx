@@ -1,4 +1,6 @@
 'use client'
+import React from 'react'
+import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { storage } from '@/services/storage'
 import type { CurrentStatus, StatusUpdate } from '@/types'
@@ -96,12 +98,25 @@ export default function StatusManagementPage() {
             <div key={update.id} className="flex items-start justify-between rounded-lg border p-4">
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
+                  <Image
+                    src="/images/avatar.jpg"
+                    alt="用户头像"
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                  />
                   <span className="font-semibold">韩达光</span>
                   <span className="text-sm text-gray-500">{update.createdAt}</span>
                 </div>
                 <p className="text-gray-700">{update.content}</p>
                 {update.image && (
-                  <img src={update.image} alt="" className="mt-2 h-32 rounded-lg object-cover" />
+                  <Image
+                    src={update.image}
+                    alt="状态图片"
+                    width={200}
+                    height={150}
+                    className="mt-2 h-32 rounded-lg object-cover"
+                  />
                 )}
               </div>
               <button

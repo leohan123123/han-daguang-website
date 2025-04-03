@@ -1,4 +1,6 @@
 'use client'
+import React from 'react'
+import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { storage } from '@/services/storage'
 import { communityData } from '@/data/community'
@@ -125,33 +127,35 @@ export default function CommunityPage() {
       <div className="space-y-6">
         {posts.map((post) => (
           <div key={post.id} className="rounded-xl bg-white p-6 shadow-sm">
-            {/* 作者信息 */}
-            <div className="mb-4 flex items-center">
-              <div className="h-10 w-10 overflow-hidden rounded-full bg-gray-200">
-                {post.author.avatar ? (
-                  <img src={post.author.avatar} alt={post.author.name} className="h-full w-full object-cover" />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-blue-500 text-white">
-                    {post.author.name[0]}
-                  </div>
-                )}
-              </div>
-              <div className="ml-3">
-                <div className="font-semibold">{post.author.name}</div>
-                <div className="text-sm text-gray-500">
+            <div className="flex items-center space-x-4">
+              <Image
+                src={post.author.avatar}
+                alt={post.author.name}
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
+              <div>
+                <p className="font-medium text-gray-900">{post.author.name}</p>
+                <p className="text-sm text-gray-500">
                   {new Date(post.createdAt).toLocaleString('zh-CN')}
-                </div>
+                </p>
               </div>
             </div>
 
-            {/* 帖子内容 */}
-            <div className="mb-4">
-              <p className="whitespace-pre-wrap text-gray-800">{post.content}</p>
+            <div className="mt-4">
+              <h3 className="text-lg font-medium text-gray-900">{post.content}</h3>
               {post.images && post.images.length > 0 && (
                 <div className="mt-4 grid gap-4 md:grid-cols-2">
                   {post.images.map((image, index) => (
                     <div key={index} className="overflow-hidden rounded-lg">
-                      <img src={image} alt="" className="h-full w-full object-cover" />
+                      <Image
+                        src={image}
+                        alt={post.content}
+                        width={600}
+                        height={400}
+                        className="h-full w-full object-cover"
+                      />
                     </div>
                   ))}
                 </div>
@@ -173,18 +177,18 @@ export default function CommunityPage() {
             )}
 
             {/* 互动按钮 */}
-            <div className="flex items-center space-x-6 text-gray-500">
-              <button className="flex items-center hover:text-blue-600">
+            <div className="mt-4 flex space-x-4">
+              <button className="flex items-center text-gray-500">
                 <HeartIcon className="mr-1 h-5 w-5" />
-                <span>{post.likes}</span>
+                <span>{post.likes} 赞</span>
               </button>
-              <button className="flex items-center hover:text-blue-600">
+              <button className="flex items-center text-gray-500">
                 <ChatBubbleLeftIcon className="mr-1 h-5 w-5" />
-                <span>{post.comments}</span>
+                <span>{post.comments} 评论</span>
               </button>
-              <button className="flex items-center hover:text-blue-600">
+              <button className="flex items-center text-gray-500">
                 <ShareIcon className="mr-1 h-5 w-5" />
-                <span>{post.shares}</span>
+                <span>{post.shares} 分享</span>
               </button>
             </div>
           </div>

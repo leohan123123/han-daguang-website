@@ -1,6 +1,7 @@
 'use client'
+import React from 'react'
 import { useState, useRef, useEffect } from 'react'
-import { XMarkIcon, PhotoIcon } from '@heroicons/react/24/outline'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 import { imageUtils } from '@/utils/imageUtils'
 import Image from 'next/image'
 
