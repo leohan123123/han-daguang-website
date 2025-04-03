@@ -1,4 +1,4 @@
-import { Profile, Status, Hardware, Patent, Community } from '@/types'
+import { Profile, Hardware, Patent } from '@/types'
 
 // 本地存储服务
 export const STORAGE_KEYS = {
@@ -14,8 +14,7 @@ export const STORAGE_KEYS = {
   PROJECTS: 'PROJECTS'
 } as const
 
-type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS]
-type StorageData = Profile | Status | Hardware[] | Patent[] | Community[]
+type StorageData = Profile | Hardware[] | Patent[]
 
 export const storage = {
   // 保存数据
