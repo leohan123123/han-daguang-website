@@ -9,15 +9,15 @@ export interface Profile {
     patents: number
     projects: number
   }
-  researchAreas: {
+  researchAreas: Array<{
     title: string
     description: string
-  }[]
-  education: {
+  }>
+  education: Array<{
     degree: string
     school: string
     period: string
-  }[]
+  }>
 }
 
 // 专利类型
@@ -25,7 +25,7 @@ export interface Patent {
   id: number
   title: string
   category: string
-  status: '已授权' | '审查中' | '公开' | '失效'
+  status: string
   publicationDate: string
   number: string
   description: string
@@ -93,24 +93,14 @@ export interface Paper {
 }
 
 export interface Hardware {
-  id: string
+  id: number
   name: string
   description: string
   features: string[]
-  specifications: {
-    dimensions: string
-    weight: string
-    powerSupply: string
-    connectivity: string[]
-    other?: Record<string, string>
-  }
-  images: {
-    main: string
-    gallery: string[]
-  }
-  status: '开发中' | '预售' | '已发布' | '停产'
-  price?: number
-  releaseDate?: string
+  specifications: string[]
+  images: string[]
+  status: string
+  price: number
 }
 
 // 社区帖子类型
@@ -236,5 +226,23 @@ export interface StatusUpdate {
 
 // 当前状态类型
 export interface CurrentStatus {
-  updates: StatusUpdate[]
+  updates: Array<{
+    id: string
+    content: string
+    createdAt: string
+    image?: string
+  }>
+}
+
+export interface Community {
+  id: number
+  title: string
+  content: string
+  author: string
+  avatar: string
+  date: string
+  image?: string
+  likes: number
+  comments: number
+  shares: number
 } 

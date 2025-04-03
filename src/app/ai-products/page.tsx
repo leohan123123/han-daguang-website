@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import React from 'react'
 import { SparklesIcon, BoltIcon, CpuChipIcon } from '@heroicons/react/24/outline'
 
 const products = [

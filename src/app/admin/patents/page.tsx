@@ -3,7 +3,10 @@ import { useState, useEffect } from 'react'
 import { storage } from '@/services/storage'
 import { patentData } from '@/data/patents'
 import type { Patent } from '@/types'
-import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { 
+  PencilIcon, 
+  TrashIcon 
+} from '@heroicons/react/24/outline'
 
 export default function AdminPatentsPage() {
   const [patents, setPatents] = useState<Patent[]>(patentData)

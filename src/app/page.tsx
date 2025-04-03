@@ -1,10 +1,11 @@
 'use client'
+import React from 'react'
 import { useState, useEffect } from 'react'
 import { storage } from '@/services/storage'
 import { userStatusData } from '@/data/status'
-import type { UserStatus, CurrentStatus, StatusUpdate } from '@/types'
-import Image from "next/image";
-import Link from "next/link";
+import type { UserStatus, CurrentStatus } from '@/types'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Home() {
   const [status, setStatus] = useState<UserStatus>(userStatusData)
@@ -45,9 +46,11 @@ export default function Home() {
       <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-900 to-indigo-900 p-8 text-white">
         <div className="relative z-10 flex items-start space-x-8">
           <div className="flex-shrink-0">
-            <img
+            <Image
               src="/images/avatar.jpg"
               alt="韩达光"
+              width={120}
+              height={120}
               className="h-48 w-48 rounded-lg object-cover"
             />
           </div>
@@ -170,9 +173,11 @@ export default function Home() {
             {currentStatus.updates.map((update) => (
               <div key={update.id} className="rounded-lg bg-gray-800 p-4">
                 <div className="flex items-start space-x-3">
-                  <img
+                  <Image
                     src="/images/avatar.jpg"
                     alt="韩达光"
+                    width={40}
+                    height={40}
                     className="h-10 w-10 rounded-full"
                   />
                   <div className="flex-1">
@@ -183,9 +188,11 @@ export default function Home() {
                     <p className="mt-2 text-gray-300">{update.content}</p>
                     {update.image && (
                       <div className="mt-3">
-                        <img
+                        <Image
                           src={update.image}
                           alt=""
+                          width={100}
+                          height={100}
                           className="rounded-lg"
                         />
                       </div>

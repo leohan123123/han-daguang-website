@@ -1,4 +1,18 @@
 // 图片处理工具函数
+interface ImageDimensions {
+  width: number;
+  height: number;
+}
+
+interface ImageError {
+  response?: {
+    data?: {
+      error?: string;
+    };
+  };
+  message?: string;
+}
+
 export const imageUtils = {
   // 生成唯一的文件名
   generateFileName: (originalName: string, prefix: string = ''): string => {
@@ -40,7 +54,7 @@ export const imageUtils = {
   },
 
   // 处理图片上传错误
-  handleUploadError: (error: any): string => {
+  handleUploadError: (error: ImageError): string => {
     console.error('图片上传错误:', error)
     if (error?.response?.data?.error) {
       return error.response.data.error
@@ -66,5 +80,80 @@ export const imageUtils = {
   getFullImageUrl: (path: string): string => {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || ''
     return `${baseUrl}${imageUtils.getImageUrl(path)}`
+  },
+
+  // 获取图片尺寸
+  getDimensions: (file: File): Promise<ImageDimensions> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        const img = new Image()
+        img.onload = () => {
+          resolve({
+            width: img.width,
+            height: img.height
+          })
+        }
+        img.onerror = reject
+        img.src = e.target?.result as string
+      }
+      reader.onerror = reject
+      reader.readAsDataURL(file)
+    })
+  },
+
+  // 压缩图片
+  compress: async (file: File, maxWidth = 1920, maxHeight = 1080): Promise<File> => {
+    const dimensions = await imageUtils.getDimensions(file)
+    
+    // 如果图片尺寸已经小于最大值，直接返回
+    if (dimensions.width <= maxWidth && dimensions.height <= maxHeight) {
+      return file
+    }
+
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        const img = new Image()
+        img.onload = () => {
+          // 计算新的尺寸
+          let newWidth = img.width
+          let newHeight = img.height
+          
+          if (newWidth > maxWidth) {
+            newHeight = (maxWidth * newHeight) / newWidth
+            newWidth = maxWidth
+          }
+          
+          if (newHeight > maxHeight) {
+            newWidth = (maxHeight * newWidth) / newHeight
+            newHeight = maxHeight
+          }
+
+          // 创建 canvas 并绘制压缩后的图片
+          const canvas = document.createElement('canvas')
+          canvas.width = newWidth
+          canvas.height = newHeight
+          const ctx = canvas.getContext('2d')
+          ctx?.drawImage(img, 0, 0, newWidth, newHeight)
+
+          // 转换为 Blob
+          canvas.toBlob((blob) => {
+            if (!blob) {
+              reject(new Error('Failed to compress image'))
+              return
+            }
+            resolve(new File([blob], file.name, {
+              type: file.type,
+              lastModified: file.lastModified,
+            }))
+          }, file.type)
+        }
+        img.onerror = reject
+        img.src = e.target?.result as string
+      }
+      reader.onerror = reject
+      reader.readAsDataURL(file)
+    })
   }
 } 

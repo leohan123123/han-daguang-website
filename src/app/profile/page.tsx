@@ -1,8 +1,6 @@
 'use client'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { storage } from '@/services/storage'
-import { profileData } from '@/data/profile'
-import Image from 'next/image'
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState({
